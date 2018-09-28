@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 # Add any directories, files, or patterns you don't want to be tracked by version control
 .ide
 .node_modules
+=======
+.ide/
+node-modules/
+>>>>>>> Create repo
