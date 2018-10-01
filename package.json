@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "httpdispatcher": "^2.1.2",
+    "uid": "0.0.2"
   },
   "devDependencies": {},
   "scripts": {
