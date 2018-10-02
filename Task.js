@@ -9,6 +9,7 @@ class Task {
         this.temp = "";
         this.obj ={};
         this.client = clientManager.getClient(login);
+        this.countRecev = 0;
     }
 
     getInfo(path, res) {
@@ -51,17 +52,19 @@ class Task {
         try {
             this.obj = JSON.parse(this.temp);
             this.temp = "";
-            if (this.obj.end )
-                resolve();
-            this.client.socket.on('data', this.callback3.bind(this, res));
+            this.client.socket.on('data', this.callback3.bind(this,resolve, res));
         }
         catch (err) {
-            this.temp = "";
+            this.temp = ""
+
         }
     }
 
-    callback3( res, data) {
+    callback3( resolve, res, data) {
+        this.countRecev = this.countRecev+ data.length;
             res.write(data);
+            if(this.countRecev === this.obj.length)
+                resolve();
     }
 
 }
