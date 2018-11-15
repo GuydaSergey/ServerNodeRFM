@@ -19,16 +19,20 @@ class SocketDeviceDownload extends BaseSocketManager {
     }
 
     initSocket(socket) {
-        socket.once('data', (function (data) {
-            let user = JSON.parse(data.toString('utf16le'));
-            user.socketDownload = socket;
-            new Promise(() => addSocket(user));
-        }));
-        socket.once('close', (function () {
-            removeSocket(socket);
-        }));
-        socket.once('error', (function (data) {
-        }));
+        socket.once('data', function (data) {
+            try {
+                let user = JSON.parse(data.toString('utf16le'));
+                user.socketDownload = socket;
+                new Promise(() => addSocket(user));
+            }catch (err){
+                socket.destroy()
+            }
+        });
+        socket.once('close', function () {
+            new Promise(() =>removeSocket(socket));
+        });
+        socket.once('error', function (data) {
+        });
     };
 
 }

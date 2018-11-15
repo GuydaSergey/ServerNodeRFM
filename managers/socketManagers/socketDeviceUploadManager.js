@@ -19,16 +19,20 @@ class SocketDeviceUploadManager extends BaseSocketManager {
     }
 
     initSocket(socket) {
-        socket.once('data', (function (data) {
+        socket.once('data', function (data) {
+            try {
             let user = JSON.parse(data.toString('utf16le'));
             user.socketUpload = socket;
             new Promise(() => addSocket(user));
-        }));
-        socket.once('close', (function () {
-            removeSocket(socket);
-        }));
-        socket.once('error', (function (data) {
-        }));
+            }catch (err){
+                socket.destroy()
+            }
+        });
+        socket.once('close', function () {
+            new Promise(() => removeSocket(socket));
+        });
+        socket.once('error', function (data) {
+        });
     };
 
 }

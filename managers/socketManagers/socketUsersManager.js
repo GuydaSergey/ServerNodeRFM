@@ -2,7 +2,7 @@ const net = require('net');
 const BaseSocketManager = require("./baseSocketManager");
 const Task = require('../../Task');
 
-// let _instanc = null;
+
 
 class SocketUsersManager extends BaseSocketManager {
 
@@ -18,19 +18,18 @@ class SocketUsersManager extends BaseSocketManager {
     }
 
     initSocket(socket) {
-        socket.once('data', (function (data) {
-            let obj = JSON.parse(data.toString('utf16le'));
-            obj.socket = socket;
-            new Promise(() => new Task().runTask(obj));
-        }));
-        socket.once('error', (function (data) {
-        }));
+        socket.once('data', function (data) {
+            try{
+                let obj = JSON.parse(data.toString('utf16le'));
+                obj.socket = socket;
+                new Promise(() => new Task().runTask(obj));
+            }catch (err){
+                socket.destroy()
+            }
+        });
+        socket.once('error', function (data) {
+        });
     };
 }
 
 module.exports = SocketUsersManager;
-//     {
-//     getInstanc: () => {
-//         return _instanc = _instanc !== null ? _instanc : new SocketUsersManager()
-//     }
-// };
