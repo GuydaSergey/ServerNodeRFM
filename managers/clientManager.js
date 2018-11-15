@@ -1,54 +1,67 @@
 /**
  * Created by Сергей on 04.09.2018.
  */
-const emitter = require('../eventEmitter').getInstanc();
-const uid = require('uid');
+const redis_DB = require('../redis_db').getInstanc();
+
 
 let _instanc = null;
-let arrClientConnect = [];
+let arrUsersConnect = [];
+
 class ClientManager {
 
     constructor(){
+
     }
 
     init(){
-        emitter.onEvent("AddSocketConnect", this.addSocketConnect);
-        emitter.onEvent( "1" ,this.initClientSocket.bind(this) );
+
     }
 
-    addSocketConnect(socket){
-        let ex = arrClientConnect.find((cl) => cl.socket.remoteAddress === socket.remoteAddress);
-        if (ex === undefined) {
-            arrClientConnect.push({ socket:socket});
-        }
-        else {
-            ex.socket = socket;
-        }
+    registUser(user) {
+     return  redis_DB.registerUser(user).then( result =>{
+           if(result !== null){
+               redis_DB.initUser(result).then(res => {
+                   this.initUser(res);
+               });
+           }
+         return result;
+       });
+    }
+
+    initUser (user) {
+       return  redis_DB.findData("users",user.Login).then( result =>{
+           let  tmp = null;
+           if(result !== null) {
+               tmp = JSON.parse(result);
+               if(user.Pass === tmp.Pass) {
+                   let ex = arrUsersConnect.find((el) => { return el.uid === tmp.uid });
+                   if (ex === undefined) {
+                       arrUsersConnect.push(tmp);
+                   }
+                   return tmp.uid;
+               }
+           }
+           return tmp;
+       });
     };
 
-    initClientSocket (data) {
-        let user =  JSON.parse(data.body);
-         arrClientConnect.forEach((cl)=>{
-            let endPoint = cl.socket.remoteAddress.toString().split(':')[3] +':'+ cl.socket.remotePort;
-            if( endPoint === user.EndPoint) {
-               Object.assign(cl,user);
-               this.responseOK(cl.socket);
+    getUser(uid){
+        let user = arrUsersConnect.find(el => { return el.uid === uid});
+        if(user !== undefined){
+            if(user.socket === undefined) {
+                user = undefined;
             }
-        });
-    };
-
-    responseOK ( socket ) {
-        socket.write( JSON.stringify({ command:5,body:"",cancelPackage: true}));
-    };
-
-    getClient ( token ){
-        return arrClientConnect.find((cl) => cl.Login === token);
+        }
+        return user
     }
 }
 
 module.exports = {
     getInstanc: () => {
         return _instanc = _instanc !== null ? _instanc : new ClientManager()
+    },
+    getArrUsers:()=>{
+        return arrUsersConnect;
     }
 };
 

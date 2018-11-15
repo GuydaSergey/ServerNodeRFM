@@ -7,19 +7,18 @@ const Task = require('./Task');
 module.exports = (dispatcher) => {
 
     dispatcher.onGet("/", function (req, res) {
-        res.write("Hello API RemoteFIleManager");
-        res.end();
+        res.end("Hello API RemoteFIleManager");
+    });
+
+    dispatcher.onGet("/registr", function (req, res) {
+        new Task().runTask(req.params, res);
     });
 
     dispatcher.onGet("/init", function (req, res) {
-
+        new Task().runTask(req.params, res);
     });
 
     dispatcher.onGet("/get", function (req, res) {
-        new Task(req.params.login).getInfo(req.params.path, res);
-    });
-
-    dispatcher.onGet("/upload", function (req, res) {
-        new Task(req.params.login).uploadFile(req.params.path, res);
+        new Task().runTask(req.params, res);
     });
 };

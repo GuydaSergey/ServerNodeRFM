@@ -11,23 +11,23 @@ let _instanc = null;
 
 class Server {
 
-    constructor(){
+    constructor() {
         server.listen(3000, function () {
-            console.log("API Started");
+            console.log("HTTP API Started");
         });
     }
 
-    init()  {
+    init() {
 
-        server.on("request",function (req ,res) {
-            dispatcher.dispatch(req,res);
+        server.on("request", function (req, res) {
+            dispatcher.dispatch(req, res);
         })
     }
 
 
 }
 
- module.exports = {
+module.exports = {
     getInstanc: () => {
         return _instanc = _instanc !== null ? _instanc : new Server()
     }

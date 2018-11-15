@@ -20,8 +20,8 @@ class eventEmitter {
     eventEmit(event, data) {
         if (this.arrEvent.some((el) => el.event === event)) {
             this.arrEvent.find((el) => el.event === event.toString()).arrFunc.forEach((func) => {
-                        func(data);
-                    });
+                                     func(data);
+                                    });
         }
     };
 }

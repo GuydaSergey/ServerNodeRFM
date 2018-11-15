@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "httpdispatcher": "^2.1.2",
+    "object-array-converter": "^1.0.1",
     "uid": "0.0.2"
   },
   "devDependencies": {},
