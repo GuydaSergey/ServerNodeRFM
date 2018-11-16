@@ -16,16 +16,19 @@ class Task {
             if (obj.socket === undefined)
                 obj.socket = res;
             let user = {Login: obj.Login, Pass: obj.Pass};
-            console.log(obj);
+            console.log(obj.Login);
             switch (obj.Command) {
 
                 case "REGISTRATION" :
+                    console.log(obj.Login);
                     clientManager.registUser(user).then(result => {
+                        console.log(result);
                         obj.socket.write(result);
                         resolve();
                     });
                     break;
                 case "INIT":
+                    console.log(result);
                     clientManager.initUser(user).then(result => {
                         obj.socket.write(result);
                         resolve();
