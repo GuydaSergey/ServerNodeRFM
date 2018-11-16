@@ -29,8 +29,9 @@ class Task {
                     });
                     break;
                 case "INIT":
-                    console.log(result);
+                    console.log(obj.Login);
                     clientManager.initUser(user).then(result => {
+                        console.log(result);
                         obj.socket.write(result);
                         resolve();
                     });
