@@ -41,6 +41,7 @@ class Redis_DB {
             } else {
                 return null;
             }
+            console.log(user);
             return user.uid;
         });
     }
