@@ -105,8 +105,7 @@ class Task {
 
     setFile(resolve, res, data) {
         if (data.toString().includes("{end:true}")) {
-            data = Buffer.alloc(data.length - 10, data);
-            res.end(data);
+            res.write(data);
             resolve();
         }
         else if (!res.destroyed)
