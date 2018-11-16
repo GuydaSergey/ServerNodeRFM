@@ -16,72 +16,63 @@ class Task {
             if (obj.socket === undefined)
                 obj.socket = res;
             let user = {Login: obj.Login, Pass: obj.Pass};
-            console.log( this.client);
-            console.log(obj);
 
-            if(obj.Command.includes("REGISTRATION")) {
+            if (obj.Command.includes("REGISTRATION")) {
+
                 clientManager.registUser(user).then(result => {
-                    console.log(result);
-                    if(result !== null)
+                    if (result !== null)
                         obj.socket.write(result);
                     resolve();
-                }).catch(err => { console.log(err); resolve();} )
-            }
-            switch (obj.Command) {
+                }).catch(err => {
+                    console.log(err);
+                    resolve();
+                })
 
-                case 'REGISTRATION' :
-                    console.log(obj.Login);
-                    clientManager.registUser(user).then(result => {
-                        console.log(result);
-                        obj.socket.write(result);
-                        resolve();
-                    });
-                    break;
-                case 'INIT':
-                    console.log(obj.Login);
-                    clientManager.initUser(user).then(result => {
-                        console.log(result);
-                        obj.socket.write(result);
-                        resolve();
-                    });
-                    break;
-                case 'LOGOFF':
-                    clientManager.removeUser(obj.Uid).then(() => {
-                        resolve();
-                    });
-                    break;
-                case "INFO":
-                    if (this.client !== undefined) {
-                        this.workerSocket = this.client.socket;
-                        this.workerSocket.on('data', this.getInfo.bind(this, resolve, obj.socket));
-                    }
-                    else
-                        resolve();
-                    break;
-                case 'DELETE':
-                case 'MOVETO':
-                    setTimeout(() => resolve(),1000);
-                    break;
-                case "UPLOAD":
-                    if (this.client !== undefined) {
-                        this.workerSocket = this.client.socketUpload;
-                        this.workerSocket.on('data', this.getFile.bind(this, resolve, obj.socket));
-                    }
-                    else
-                        resolve();
-                    break;
-                case "DOWNLOAD":
-                    if (this.client !== undefined) {
-                        this.workerSocket = obj.socket;
-                        this.workerSocket.on('data', this.setFile.bind(this, resolve, this.client.socketDownload));
-                    }
-                    else
-                        resolve();
-                    break;
-                default:
-                    // resolve();
+            } else if (obj.Command.includes("INIT")) {
 
+                clientManager.initUser(user).then(result => {
+                    if (result !== null)
+                        obj.socket.write(result);
+                    resolve();
+                }).catch(err => {
+                    console.log(err);
+                    resolve();
+                })
+
+            } else if (obj.Command.includes("LOGOFF")) {
+
+                clientManager.removeUser(obj.Uid).then(() => {
+                    resolve();
+                }).catch(err => {
+                    console.log(err);
+                    resolve();
+                })
+
+            } else if (obj.Command.includes("INFO") && this.client !== undefined) {
+
+                this.workerSocket = this.client.socket;
+                this.workerSocket.on('data', this.getInfo.bind(this, resolve, obj.socket));
+
+
+            } else if (obj.Command.includes("DELETE") || obj.Command.includes("MOVETO")) {
+
+                setTimeout(() => resolve(), 1000);
+
+            } else if (obj.Command.includes("UPLOAD") && this.client !== undefined) {
+
+                this.workerSocket = this.client.socketUpload;
+                this.workerSocket.on('data', this.getFile.bind(this, resolve, obj.socket));
+
+
+            } else if (obj.Command.includes("DOWNLOAD") && this.client !== undefined) {
+
+                this.workerSocket = obj.socket;
+                this.workerSocket.on('data', this.setFile.bind(this, resolve, this.client.socketDownload));
+
+            } else {
+                resolve();
             }
+
             if (this.client !== undefined)
                 this.client.socket.write(JSON.stringify({command: obj.Command, body: obj.Body}), 'utf16le');
         }).then(() => {
@@ -89,7 +80,9 @@ class Task {
                 this.workerSocket.removeAllListeners('data');
             }
             obj.socket.end();
-        }).catch(err =>{console.log(err)});
+        }).catch(err => {
+            console.log(err)
+        });
     };
 
     getInfo(resolve, res, data) {
@@ -126,3 +119,58 @@ class Task {
 
 module.exports = Task;
 
+// switch (obj.Command) {
+//
+//     case 'REGISTRATION' :
+//         console.log(obj.Login);
+//         clientManager.registUser(user).then(result => {
+//             console.log(result);
+//             obj.socket.write(result);
+//             resolve();
+//         });
+//         break;
+//     case 'INIT':
+//         console.log(obj.Login);
+//         clientManager.initUser(user).then(result => {
+//             console.log(result);
+//             obj.socket.write(result);
+//             resolve();
+//         });
+//         break;
+//     case 'LOGOFF':
+//         clientManager.removeUser(obj.Uid).then(() => {
+//             resolve();
+//         });
+//         break;
+//     case "INFO":
+//         if (this.client !== undefined) {
+//             this.workerSocket = this.client.socket;
+//             this.workerSocket.on('data', this.getInfo.bind(this, resolve, obj.socket));
+//         }
+//         else
+//             resolve();
+//         break;
+//     case 'DELETE':
+//     case 'MOVETO':
+//         setTimeout(() => resolve(),1000);
+//         break;
+//     case "UPLOAD":
+//         if (this.client !== undefined) {
+//             this.workerSocket = this.client.socketUpload;
+//             this.workerSocket.on('data', this.getFile.bind(this, resolve, obj.socket));
+//         }
+//         else
+//             resolve();
+//         break;
+//     case "DOWNLOAD":
+//         if (this.client !== undefined) {
+//             this.workerSocket = obj.socket;
+//             this.workerSocket.on('data', this.setFile.bind(this, resolve, this.client.socketDownload));
+//         }
+//         else
+//             resolve();
+//         break;
+//     default:
+//     // resolve();
+//
+// }
