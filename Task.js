@@ -79,7 +79,7 @@ class Task {
                 this.workerSocket.removeAllListeners('data');
             }
             obj.socket.end();
-        });
+        }).catch(err =>{console.log(err)});
     };
 
     getInfo(resolve, res, data) {
