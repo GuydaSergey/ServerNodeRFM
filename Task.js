@@ -22,7 +22,8 @@ class Task {
             if(obj.Command.includes("REGISTRATION")) {
                 clientManager.registUser(user).then(result => {
                     console.log(result);
-                    obj.socket.write(result);
+                    if(result !== null)
+                        obj.socket.write(result);
                     resolve();
                 }).catch(err => { console.log(err); resolve();} )
             }
