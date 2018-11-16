@@ -93,7 +93,7 @@ function findDevice(user) {
 }
 
 function findTasks(uid) {
-    console.log(uid);
+
 }
 
 module.exports = {

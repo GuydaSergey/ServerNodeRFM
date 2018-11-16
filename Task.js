@@ -30,6 +30,11 @@ class Task {
                         resolve();
                     });
                     break;
+                case "LOGOFF":
+                    clientManager.removeUser(obj.Uid).then(() => {
+                        resolve();
+                    });
+                    break;
                 case "INFO":
                     if (this.client !== undefined) {
                         this.workerSocket = this.client.socket;
@@ -37,6 +42,7 @@ class Task {
                     }
                     else
                         resolve();
+                    break;
                 case "DELETE":
                 case "MOVETO":
                     setTimeout(() => resolve(),1000);

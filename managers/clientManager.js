@@ -39,11 +39,24 @@ class ClientManager {
                        arrUsersConnect.push(tmp);
                    }
                    return tmp.uid;
+               } else {
+                   tmp = null;
                }
            }
            return tmp;
        });
     };
+
+    removeUser(uid)   {
+        return new Promise(()=>{
+            let user = this.getUser(uid);
+            if(user !== undefined) {
+                if(user.socket !== undefined)
+                    user.socket.end();
+                arrUsersConnect.splice(arrUsersConnect.indexOf(user),1);
+            }
+        });
+    }
 
     getUser(uid){
         let user = arrUsersConnect.find(el => { return el.uid === uid});

@@ -29,7 +29,7 @@ class SocketDeviceDownload extends BaseSocketManager {
             }
         });
         socket.once('close', function () {
-            new Promise(() =>removeSocket(socket));
+            new Promise(() => removeSocket(socket));
         });
         socket.once('error', function (data) {
         });
