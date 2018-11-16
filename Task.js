@@ -17,7 +17,7 @@ class Task {
                 obj.socket = res;
             let user = {Login: obj.Login, Pass: obj.Pass};
             console.log( this.client);
-            console.log(obj.Command);
+            console.log(obj);
             switch (obj.Command) {
 
                 case 'REGISTRATION' :
