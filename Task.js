@@ -16,6 +16,7 @@ class Task {
             if (obj.socket === undefined)
                 obj.socket = res;
             let user = {Login: obj.Login, Pass: obj.Pass};
+            console.log(obj);
             switch (obj.Command) {
 
                 case "REGISTRATION" :

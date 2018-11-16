@@ -6,6 +6,7 @@ const net = require('net');
 class BaseSocketManager {
     constructor() {
         this.server = net.createServer({allowHalfOpen: true}, (socket) => {
+            console.log(""+socket.remoteAddress+" "+ socket.Ip);
             new Promise(() => this.initSocket(socket));
         }).on('error', (err) => {
         });
