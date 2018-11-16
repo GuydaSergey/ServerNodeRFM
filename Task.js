@@ -72,8 +72,6 @@ class Task {
 
             if (this.client !== undefined)
                 this.client.socket.write(JSON.stringify({command: obj.Command, body: obj.Body}), 'utf16le');
-            else
-                resolve();
         }).then(() => {
             if (this.workerSocket !== null) {
                 this.workerSocket.removeAllListeners('data');
