@@ -36,7 +36,7 @@ class Task {
                         resolve();
                     });
                     break;
-                case "LOGOFF":
+                case 'LOGOFF':
                     clientManager.removeUser(obj.Uid).then(() => {
                         resolve();
                     });
@@ -49,8 +49,8 @@ class Task {
                     else
                         resolve();
                     break;
-                case "DELETE":
-                case "MOVETO":
+                case 'DELETE':
+                case 'MOVETO':
                     setTimeout(() => resolve(),1000);
                     break;
                 case "UPLOAD":
