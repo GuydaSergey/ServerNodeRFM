@@ -16,9 +16,9 @@ class Task {
             if (obj.socket === undefined)
                 obj.socket = res;
             let user = {Login: obj.Login, Pass: obj.Pass};
-
+            console.log(obj);
             if (obj.Command.includes("REGISTRATION")) {
-
+                console.log(obj);
                 clientManager.registUser(user).then(result => {
                     if (result !== null)
                         obj.socket.write(result);
@@ -29,7 +29,7 @@ class Task {
                 })
 
             } else if (obj.Command.includes("INIT")) {
-
+                console.log(obj);
                 clientManager.initUser(user).then(result => {
                     if (result !== null)
                         obj.socket.write(result);
