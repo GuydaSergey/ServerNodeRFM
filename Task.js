@@ -18,6 +18,14 @@ class Task {
             let user = {Login: obj.Login, Pass: obj.Pass};
             console.log( this.client);
             console.log(obj);
+
+            if(obj.Command.includes("REGISTRATION")) {
+                clientManager.registUser(user).then(result => {
+                    console.log(result);
+                    obj.socket.write(result);
+                    resolve();
+                });
+            }
             switch (obj.Command) {
 
                 case 'REGISTRATION' :
