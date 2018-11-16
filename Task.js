@@ -105,8 +105,7 @@ class Task {
 
     setFile(resolve, res, data) {
         if (data.toString().includes("{end:true}")) {
-            res.write(data);
-            setTimeout(() => res.end(), 10000);
+            res.end(data);
             resolve();
         }
         else if (!res.destroyed)
