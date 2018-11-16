@@ -18,7 +18,7 @@ class Task {
             let user = {Login: obj.Login, Pass: obj.Pass};
             console.log( this.client);
             console.log(obj.Command);
-            switch (obj.Command) {
+            switch (obj.Command.toString()) {
 
                 case "REGISTRATION" :
                     console.log(obj.Login);
