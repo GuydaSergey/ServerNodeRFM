@@ -18,9 +18,9 @@ class Task {
             let user = {Login: obj.Login, Pass: obj.Pass};
             console.log( this.client);
             console.log(obj.Command);
-            switch (obj.Command.toString()) {
+            switch (obj.Command) {
 
-                case "REGISTRATION" :
+                case 'REGISTRATION' :
                     console.log(obj.Login);
                     clientManager.registUser(user).then(result => {
                         console.log(result);
@@ -28,7 +28,7 @@ class Task {
                         resolve();
                     });
                     break;
-                case "INIT":
+                case 'INIT':
                     console.log(obj.Login);
                     clientManager.initUser(user).then(result => {
                         console.log(result);
