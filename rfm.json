@@ -1,0 +1,29 @@
+{
+  "apps" : [{
+    "name"        : "RFM",
+    "script"      : "./index.js",
+    "instances"   : "max",
+    "exec_mode"   : "fork",
+    "watch"       : false,
+    "max_memory_restart" : "512M",
+    "source_map_support": false,
+    "vizion": false,
+    "env": {
+      "NODE_ENV": "production",
+      "UV_THREADPOOL_SIZE": 64
+    },
+    "env_local": {
+      "NODE_ENV": "local",
+      "UV_THREADPOOL_SIZE": 8
+    },
+    "env_staging": {
+      "NODE_ENV": "staging",
+      "UV_THREADPOOL_SIZE": 32
+    },
+    "env_production": {
+      "NODE_ENV": "production",
+      "UV_THREADPOOL_SIZE": 64
+    },
+    "kill_timeout": 3000
+  }]
+}
