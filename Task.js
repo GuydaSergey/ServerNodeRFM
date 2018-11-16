@@ -24,7 +24,7 @@ class Task {
                     console.log(result);
                     obj.socket.write(result);
                     resolve();
-                });
+                }).catch(err => { console.log(err); resolve();} )
             }
             switch (obj.Command) {
 
