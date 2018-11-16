@@ -78,7 +78,7 @@ class Task {
                         resolve();
                     break;
                 default:
-                    resolve();
+                    // resolve();
 
             }
             if (this.client !== undefined)
