@@ -11,6 +11,7 @@ class Task {
     }
 
     runTask(obj, res) {
+        console.log(obj.Command);
         new Promise((resolve) => {
             this.client = clientManager.getUser(obj.Uid);
             if (obj.socket === undefined)
